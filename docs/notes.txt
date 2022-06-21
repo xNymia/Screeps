@@ -1,0 +1,24 @@
+
+Spawn System
+Check System
+Task  System
+Creep Control System
+
+
+
+Check Room
+	Need Energy => Create Task
+	Need Upgrade => Create Task
+	Need Build => Create Task
+
+
+
+
+ahh, i solved that by added lots of shared behaviours as new prototype functions on the game creep class. So i can go creep.getEnergy()
+getEnergy() then is actually a collection of other extra funcs, such as harvestFromNearestSource() getFromClosetContainer() getFromTombstone() etc
+
+
+
+
+getEnergy
+    
