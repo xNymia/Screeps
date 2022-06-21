@@ -5,6 +5,8 @@ Task  System
 Creep Control System
 
 
+Creeps take tasks, not given tasks
+
 
 Check Room
 	Need Energy => Create Task
