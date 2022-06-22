@@ -24,3 +24,11 @@ getEnergy() then is actually a collection of other extra funcs, such as harvestF
 
 getEnergy
     
+
+
+
+
+
+Creeps harvest at 2 energy per tick per WORK Module
+
+Source regens every 300 ticks
