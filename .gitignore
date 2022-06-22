@@ -1,2 +1,2 @@
 secrets.ini
-./dist/*.js
+dist/*.js
