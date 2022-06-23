@@ -1,4 +1,5 @@
-const getEnergy = require('./functions/fnc_getEnergy.js')
+const harvestEnergy = require('./tasks/tsk_harvestEnergy.js')
+const upgradeController = require('./tasks/tsk_upgradeController.js')
 const spawnController = require('./spawn/spn_controller.js')
 
 module.exports.loop = function () {
@@ -13,15 +14,27 @@ module.exports.loop = function () {
     }
 
 
-    for (let spawn in Game.spawns) {
-        if (Game.spawns[spawn].spawning == null) {
-            spawnController.run(Game.spawns[spawn])
+    for (let name in Game.spawns) {
+        if (Game.spawns[name].spawning == null) {
+            spawnController.run(Game.spawns[name])
         }
     }
 
 
     for (let name in Game.creeps) {
-        var creep = Game.creeps[name]
-        getEnergy.run(creep)
+        
+
+        switch (Game.creeps[name].memory.role) {
+            case 'harvester':
+                harvestEnergy.run(Game.creeps[name]);
+            case 'upgrader':    
+                upgradeController.run(Game.creeps[name]);
+            default:
+                break;
+        }
+
     }
+
+    
+
 }

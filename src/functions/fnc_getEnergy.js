@@ -11,21 +11,18 @@ var getEnergy = {
         closest.push(this.getFromStructure(creep));
         closest.push(this.harvestSimple(creep));
         
+
         if (creep.memory.role == 'harvester'){
             closest = closest[1];
-            
-
-
-
-
-
-
-        }else if (creep.memory.role == 'upgrader'){
+            if (creep.harvest(closest) === ERR_NOT_IN_RANGE){
+                creep.moveTo(closest, {visualizePathStyle:{}})
+            }
+        } else if (creep.memory.role == 'upgrader'){
             closest = creep.pos.findClosestByPath(closest);
+            if (creep.harvest(closest) === ERR_NOT_IN_RANGE){
+                creep.moveTo(closest, {visualizePathStyle:{}})
+            }
         };
-        
-        console.log(closest);
-
     },
 
     // Find the closest 'source' object
