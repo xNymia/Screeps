@@ -28,7 +28,7 @@ def stageAndRewrite():
             for line in f.readlines():
 
                 if ('require' in line) and ('lodash' not in line) :
-                    result = re.search(r"require\('(.+\/+(.+)\.js)'\)", line)
+                    result = re.search(r"require\('(.+\/+(.+))'\)", line)
                     w.write(line.replace(result.group(1), result.group(2)))
                 else:
                     w.write(line)
