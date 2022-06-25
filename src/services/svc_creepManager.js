@@ -1,6 +1,7 @@
 const tasks = {
     "harvest" : require('../tasks/tsk_harvest'),
-    "upgrade" : require('../tasks/tsk_upgrade')
+    "upgrade" : require('../tasks/tsk_upgrade'),
+    "build" : require('../tasks/tsk_build')
 }
 
 
