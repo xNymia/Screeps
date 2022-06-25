@@ -1,3 +1,5 @@
+var upgrade = require('./tsk_upgrade')
+
 module.exports = {
     run : function (creep){
 
@@ -14,12 +16,24 @@ module.exports = {
                 destination = creep.room.storage;
             }
 
+            if (destination == undefined && creep.isFull() == true){
+                creep.tasks.type = 'upgrade'
+                console.log(creep.tasks.type)
+                upgrade.run(creep);
+                return;
+            }
+
+            
             if (destination != undefined) {
                 if (creep.transfer(destination, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(destination);
                     return
+                } else {
+                    console.log(creep.name +' harvest task reset');
+                    creep.tasks.type = null;
+                    return; 
                 }
-                creep.memory.task = null;
+                
             }
         } else {
             creep.getEnergy(false, true);

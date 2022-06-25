@@ -1,4 +1,4 @@
-const roles = ['worker']
+const roles = ['worker', 'soldier']
 
 // If more than 2 harvesters then change a harvester to an upgrader
 
@@ -46,5 +46,5 @@ StructureSpawn.prototype.createWorkerCreep =
         }
 
         // create creep with the created body and the given role
-        return this.spawnCreep(body, roleName + '_' + Game.time, { memory: { role: roleName, task: null }});
+        return this.spawnCreep(body, roleName + '_' + Game.time, { memory: { role: roleName, task: "{\"type\":\"harvest\",\"target\":null,\"role\":\"worker\",\"complete\":false}"}});
     };

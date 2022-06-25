@@ -1,7 +1,11 @@
 
 
 
-Creep.prototype.tasks = null
+Creep.prototype.tasks = {}
+// Creep.prototype.tasks.type = 'harvest'
+// Creep.prototype.tasks.target = null
+// Creep.prototype.tasks.role = 'worker'
+// Creep.prototype.tasks.complete = false
 
 Creep.prototype.execute =
     function () {
