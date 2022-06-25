@@ -20,7 +20,7 @@ StructureSpawn.prototype.spawnManager =
             creepCount[role] = _.sum(roomCreeps, (c) => c.memory.role == role);
         }
         
-        if (creepCount['worker'] < 3){
+        if (creepCount['worker'] < 10){
             let spawned = this.createWorkerCreep(maxEnergy, 'worker')
         }
 

@@ -1,15 +1,7 @@
 
 
 
-Creep.prototype.tasks = {};
-
-Creep.prototype.tasks.move = 
-    function (destination){
-        self.moveTo(destination);
-    }
-
-
-
+Creep.prototype.tasks = null
 
 Creep.prototype.execute =
     function () {
