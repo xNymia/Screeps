@@ -19,7 +19,7 @@ var taskManager = {
         let roomQ = thisRoom.taskQueue.queue;
         let roomQlimit = thisRoom.taskQueue.limit;
       
-        // console.log('queue not full')
+
         const defaultTask = new task('harvest', null, 'worker')
         const upgradeTask = new task('upgrade', null, 'worker')
         let buildTask = new task('build', null, 'worker')

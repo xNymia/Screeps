@@ -4,10 +4,10 @@ module.exports = {
 
         let destination = creep.room.controller
 
-        if (creep.isFull() === true || creep.chonkyBit === true) {
+        if (creep.isFull() === true || creep.tasks.chonkyBit === true) {
 
-            if (creep.chonkyBit != true){
-                creep.chonkyBit = true;
+            if (creep.tasks.chonkyBit != true){
+                creep.tasks.chonkyBit = true;
             }
 
             if (destination != undefined) {

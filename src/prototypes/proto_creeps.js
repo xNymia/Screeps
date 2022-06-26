@@ -1,6 +1,6 @@
 
 Creep.prototype.tasks = {}
-Creep.prototype.chonkyBit = false;
+Creep.prototype.tasks.chonkyBit = false;
 
 Creep.prototype.execute =
     function () {

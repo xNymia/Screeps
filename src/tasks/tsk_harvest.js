@@ -2,11 +2,11 @@ var upgrade = require('./tsk_upgrade')
 
 module.exports = {
     run : function (creep){
+        
+        if (creep.isFull() === true || creep.tasks.chonkyBit === true) {
 
-        if (creep.isFull() === true || creep.chonkyBit === true) {
-
-            if (creep.chonkyBit != true){
-                creep.chonkyBit = true;
+            if (creep.tasks.chonkyBit === false){
+                creep.tasks.chonkyBit = true;
             }
 
             let destination = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
@@ -20,7 +20,7 @@ module.exports = {
                 destination = creep.room.storage;
             }
 
-            if (destination == undefined && creep.chonkyBit() === true){
+            if (destination == undefined && creep.tasks.chonkyBit === true){
                 creep.tasks.type = 'upgrade'
                 console.log(creep.name + ' changing to upgrade')
                 upgrade.run(creep);
