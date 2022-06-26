@@ -4,7 +4,7 @@ var creepManager = require('../services/svc_creepManager')
 // Task Queue Definitions
 Room.prototype.taskQueue = {}
 Room.prototype.taskQueue.queue = [];
-Room.prototype.taskQueue.limit = 5
+Room.prototype.taskQueue.limit = 8
 
 // Core Room Manager
 Room.prototype.roomManager =

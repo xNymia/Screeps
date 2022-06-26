@@ -8,17 +8,21 @@ const tasks = {
 
 var creepManager = {
     run : function(creep){
-
+        // console.log('')
+        // console.log(creep.name + " @ creepManager:run")
+        // console.log(JSON.stringify(creep.tasks))
         // does the creep have a task currently
         
         if (creep.tasks.type != null){
+            // console.log(JSON.stringify(creep.tasks))
             this.runTask(creep, creep.tasks)
         }
         // if creep task is null after iteration, get a new task else return
         if (creep.tasks.type != null){return;}
-    
-        let Task = this.takeTask(creep)
-        
+        // console.log(JSON.stringify(creep.tasks))
+        this.takeTask(creep)
+        return;
+
     },
 
     takeTask : function(creep){

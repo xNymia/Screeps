@@ -32,20 +32,25 @@ var taskManager = {
             let oldConstruction = this.findOldConstruction(thisRoom)
             // do we have any construction tasks?
             let conTask = _.sum(roomQ, (c) => c.type == 'build');
-            let upgTask = _.sum(roomQ, (c) => c.type == 'upgrade');
-
             
-            if (roomQ.length > 2 && upgTask <= 1 ){
-                roomQ.push(upgradeTask)
-            } else if (oldConstruction.length > 0 && conTask < 2) {
+
+
+
+
+            if (oldConstruction.length > 0 && conTask < 4) {
+                
                 buildTask.target = oldConstruction[0].id
                 roomQ.push(buildTask)
-            } else if (construction.length > 0 && conTask < 2) {
+
+            } else if (construction.length > 0 && conTask < 4) {
+                
                 buildTask.target = construction[0].id
                 roomQ.push(buildTask)
+
             } else {
                 roomQ.push(defaultTask)
             }   
+            
         }
     },
 
