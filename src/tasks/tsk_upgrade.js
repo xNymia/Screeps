@@ -6,9 +6,8 @@ module.exports = {
 
         if (creep.isFull() === true || (creep.isEmpty() === false && creep.pos.inRangeTo(destination, 3) === true)) {
         
-            if (creep.store.getUsedCapacity() === 1){
+            if (creep.store.getUsedCapacity() <= 2){
                 creep.tasks.type = null;
-                return;
             }
 
             if (destination != undefined) {

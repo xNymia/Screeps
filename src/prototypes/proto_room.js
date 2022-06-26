@@ -42,7 +42,7 @@ Room.prototype.roomManager =
             console.log('   ' +e.type + ' ' + e.target + ' ' + e.role + ' ' + e.complete )
         }
 
-        console.log ('creep tasks: ')
+        console.log (this.find(FIND_MY_CREEPS).length + ' creep tasks: ')
         for (let element of this.find(FIND_MY_CREEPS)){
             console.log(element.name + '   ' + JSON.stringify(element.tasks))
         }

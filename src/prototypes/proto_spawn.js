@@ -6,6 +6,10 @@ StructureSpawn.prototype.spawnManager =
     function () {
 
         // 200 energy is minimum for a viable creep
+
+        console.log(this.room.energyAvailable)
+        console.log(this.room.energyCapacityAvailable)
+
         if (this.spawning != null || this.room.energyAvailable < 200){return;}
 
         // Define variables
@@ -20,7 +24,26 @@ StructureSpawn.prototype.spawnManager =
             creepCount[role] = _.sum(roomCreeps, (c) => c.memory.role == role);
         }
         
-        if (creepCount['worker'] < 10){
+        console.log(typeof this.room.controller.level)
+
+        var creepLimit
+        switch (this.room.controller.level) {
+            case 2:
+                creepLimit = 15
+                break;
+            case 3:
+                creepLimit = 15
+                break;
+            case 4:
+                creepLimit = 15
+                break;
+            
+            default:
+                creepLimit = 10
+        }
+
+        console.log('creep limit: ' + creepLimit)
+        if (creepCount['worker'] < creepLimit){
             let spawned = this.createWorkerCreep(maxEnergy, 'worker')
         }
 
