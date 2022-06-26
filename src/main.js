@@ -29,7 +29,7 @@ module.exports.loop = function () {
     console.log(' ')
     console.log(' ')
     console.log('-----------------NEW TICK------------------------')
-    console.log(JSON.stringify(Game.cpu))
+    //console.log(JSON.stringify(Game.cpu))
 
     // Clear dead creeps from memory
     for (let name in Memory.creeps) {

@@ -8,18 +8,19 @@ const tasks = {
 
 var creepManager = {
     run : function(creep){
-        // console.log('')
-        // console.log(creep.name + " @ creepManager:run")
-        // console.log(JSON.stringify(creep.tasks))
+    
         // does the creep have a task currently
         
-        if (creep.tasks.type != null){
-            // console.log(JSON.stringify(creep.tasks))
+        // console.log(creep.name +' chonkyBit: ' + creep.tasks.chonkyBit)
+
+        if (creep.tasks.chonkyBit === false || (creep.tasks.chonkyBit == true && creep.isEmpty() === false)){
             this.runTask(creep)
+            return
         }
-        // if creep task is null after iteration, get a new task else return
-        if (creep.tasks.type != null){return;}
-        // console.log(JSON.stringify(creep.tasks))
+        
+        // if chonkyBit is true and the creep is empty, its time to reset
+        creep.tasks.chonkyBit = false
+
         this.takeTask(creep)
         //this.runTask(creep)
         return;
@@ -28,15 +29,14 @@ var creepManager = {
 
     takeTask : function(creep){
         let roomQ = creep.room.taskQueue.queue;
-        // console.log(creep.name + ' creepManager:runTask')
-        // console.log('Room Queue ' + roomQ)
+
 
         for (let task in roomQ) {
             if (roomQ[task].role === creep.tasks.role){
                 
                 let myTask = roomQ[task]
                 
-                // console.log('mytask: '+myTask)
+            
 
                 creep.tasks.type = myTask.type;
                 creep.tasks.target = myTask.target;
@@ -46,9 +46,7 @@ var creepManager = {
 
 
                 console.log(creep.name + ' taking new task: ' + JSON.stringify(myTask))
-                // console.log('Room Queue ' + roomQ)
-                // console.log(roomQ.length)
-
+  
                 const index = roomQ.indexOf(myTask);
                 roomQ.splice(index,1)
                 return;
