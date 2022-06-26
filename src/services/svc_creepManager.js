@@ -13,12 +13,15 @@ var creepManager = {
         // console.log(JSON.stringify(creep.tasks))
         // does the creep have a task currently
         
-        if (creep.tasks.type != null){
+        if (creep.chonkyBit === false || (creep.chonkyBit == true && creep.isEmpty() === false)){
             // console.log(JSON.stringify(creep.tasks))
             this.runTask(creep)
+            return
         }
-        // if creep task is null after iteration, get a new task else return
-        if (creep.tasks.type != null){return;}
+        
+        // if chonkyBit is true and the creep is empty, its time to reset
+        creep.chonkyBit = false
+
         // console.log(JSON.stringify(creep.tasks))
         this.takeTask(creep)
         //this.runTask(creep)
@@ -43,6 +46,7 @@ var creepManager = {
                 creep.tasks.role = myTask.role;
                 creep.tasks.complete = myTask.complete;
                 creep.tasks.id = myTask.id;
+                creep.chonkyBit = false;
 
 
                 console.log(creep.name + ' taking new task: ' + JSON.stringify(myTask))

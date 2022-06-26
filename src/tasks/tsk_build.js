@@ -1,3 +1,5 @@
+var harvest = require('./tsk_harvest')
+
 module.exports = {
     run : function (creep){
 
@@ -10,14 +12,20 @@ module.exports = {
         
         
         if (destination === null){
-            creep.tasks.type = null;
-            creep.tasks.target = null;
+            creep.tasks.type = 'harvest'
+            creep.tasks.destination = null
+            console.log(creep.name + ' no build site changing to harvest')
+            harvest.run(creep);
             return;
         }
         
 
-        if (creep.isFull() === true || (creep.isEmpty() === false && creep.pos.inRangeTo(destination, 3) === true)) {
+        if (creep.isFull() === true || creep.chonkyBit === true) {
 
+            if (creep.chonkyBit != true){
+                creep.chonkyBit = true;
+            }
+            
             if (destination != undefined) {
                 if (creep.build(destination) === ERR_NOT_IN_RANGE) {
                     creep.moveTo(destination);

@@ -3,7 +3,11 @@ var upgrade = require('./tsk_upgrade')
 module.exports = {
     run : function (creep){
 
-        if (creep.isFull() === true) {
+        if (creep.isFull() === true || creep.chonkyBit === true) {
+
+            if (creep.chonkyBit != true){
+                creep.chonkyBit = true;
+            }
 
             let destination = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
                 filter: (s) => (s.structureType == STRUCTURE_SPAWN
@@ -16,7 +20,7 @@ module.exports = {
                 destination = creep.room.storage;
             }
 
-            if (destination == undefined && creep.isFull() == true){
+            if (destination == undefined && creep.chonkyBit() === true){
                 creep.tasks.type = 'upgrade'
                 console.log(creep.name + ' changing to upgrade')
                 upgrade.run(creep);
@@ -27,14 +31,10 @@ module.exports = {
             if (destination != undefined) {
                 if (creep.transfer(destination, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                     creep.moveTo(destination);
-                    return
-                } else if (creep.transfer(destination, RESOURCE_ENERGY) === OK) {
-                    console.log(creep.name +' harvest task reset');
-                    creep.tasks.type = null;
-                    return; 
                 }
-                
             }
+
+
         } else {
             creep.getEnergy(false, true);
         }
