@@ -8,6 +8,7 @@ module.exports = {
         
             if (creep.store.getUsedCapacity() <= 2){
                 creep.tasks.type = null;
+                return;
             }
 
             if (destination != undefined) {

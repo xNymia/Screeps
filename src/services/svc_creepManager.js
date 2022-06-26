@@ -15,40 +15,53 @@ var creepManager = {
         
         if (creep.tasks.type != null){
             // console.log(JSON.stringify(creep.tasks))
-            this.runTask(creep, creep.tasks)
+            this.runTask(creep)
         }
         // if creep task is null after iteration, get a new task else return
         if (creep.tasks.type != null){return;}
         // console.log(JSON.stringify(creep.tasks))
         this.takeTask(creep)
+        //this.runTask(creep)
         return;
 
     },
 
     takeTask : function(creep){
         let roomQ = creep.room.taskQueue.queue;
+        // console.log(creep.name + ' creepManager:runTask')
+        // console.log('Room Queue ' + roomQ)
 
-        for (const task in roomQ) {
+        for (let task in roomQ) {
             if (roomQ[task].role === creep.tasks.role){
                 
                 let myTask = roomQ[task]
                 
+                // console.log('mytask: '+myTask)
+
                 creep.tasks.type = myTask.type;
                 creep.tasks.target = myTask.target;
                 creep.tasks.role = myTask.role;
                 creep.tasks.complete = myTask.complete;
+                creep.tasks.id = myTask.id;
 
 
                 console.log(creep.name + ' taking new task: ' + JSON.stringify(myTask))
+                // console.log('Room Queue ' + roomQ)
+                // console.log(roomQ.length)
 
-                roomQ.splice(task, 1)
-                return myTask
+                const index = roomQ.indexOf(myTask);
+                roomQ.splice(index,1)
+                return;
+                
+                
+                
+                //return myTask
             }
         }
     },
 
-    runTask : function(creep, Task) {        
-        tasks[Task.type].run(creep);
+    runTask : function(creep) {        
+        tasks[creep.tasks.type].run(creep);
     },
 }
 

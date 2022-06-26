@@ -26,10 +26,10 @@ StructureSpawn.prototype.spawnManager =
                 creepLimit = 15
                 break;
             case 3:
-                creepLimit = 15
+                creepLimit = 20
                 break;
             case 4:
-                creepLimit = 15
+                creepLimit = 20
                 break;
             
             default:

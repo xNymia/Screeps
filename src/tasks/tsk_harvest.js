@@ -18,17 +18,17 @@ module.exports = {
 
             if (destination == undefined && creep.isFull() == true){
                 creep.tasks.type = 'upgrade'
-                console.log(creep.tasks.type)
+                console.log(creep.name + ' changing to upgrade')
                 upgrade.run(creep);
                 return;
             }
 
             
             if (destination != undefined) {
-                if (creep.transfer(destination, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                if (creep.transfer(destination, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                     creep.moveTo(destination);
                     return
-                } else {
+                } else if (creep.transfer(destination, RESOURCE_ENERGY) === OK) {
                     console.log(creep.name +' harvest task reset');
                     creep.tasks.type = null;
                     return; 
