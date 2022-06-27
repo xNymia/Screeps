@@ -16,11 +16,11 @@ var creepManager = {
             creepCount[task] = _.sum(roomCreeps, (c) => c.task.type == task);
         }
         let conSites = room.find(FIND_MY_CONSTRUCTION_SITES)
+        let repairTargets = creep.pos.findClosestByPath(creep.room.find(FIND_STRUCTURES, {    
+            filter: (s) => s.hits < s.hitsMax && s.structureType != STRUCTURE_WALL
+        }));
 
         
-
-      
-
         // If the creep is empty but still has a task - nuke the task
         if (creep.isEmpty() === true && creep.task.type != undefined){  
             creep.task.type = undefined
@@ -62,9 +62,13 @@ var creepManager = {
                 return
             }
 
-            if (creepCount['repair'] < 2 && room.controller.level > 2){
-                this.giveTask(creep, 'repair')
+            if (repairTargets != null) {
+                if ((creepCount['repair'] < 2 || creepCount['repair'] === undefined) && room.controller.level > 2){
+                    this.giveTask(creep, 'repair')
+                    return
+                }
             }
+           
 
             
             if (conSites.length > 0){

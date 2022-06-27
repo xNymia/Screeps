@@ -49,7 +49,7 @@ StructureSpawn.prototype.spawnManager =
             
             default:
                 spawnEnergyMinimum = 1200
-                workerLimit = 15
+                workerLimit = 10
         }
 
         console.log('creep limit: ' + workerLimit)

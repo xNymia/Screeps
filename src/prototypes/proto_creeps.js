@@ -80,8 +80,16 @@ Creep.prototype.getEnergy =
                 // move towards it
                 this.moveTo(source);
                 return
+            } 
+            else if (source == undefined){
+                if(this.isEmpty() === false){
+                    this.task.getChonk = false
+                    return
+                } else {
+                    return
+                }
             }
-        }
+        } 
 
     };
 

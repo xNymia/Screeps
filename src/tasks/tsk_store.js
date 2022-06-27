@@ -9,8 +9,6 @@ module.exports = {
                             && s.energy < s.energyCapacity
         });
 
-        console.log(store)
-
         if (store == undefined && creep.room.storage != undefined) {
             store = creep.room.storage;
         }
