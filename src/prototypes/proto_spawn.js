@@ -1,43 +1,65 @@
-const roles = ['worker', 'soldier']
+const roles = ['worker']
 
-// If more than 2 harvesters then change a harvester to an upgrader
+
 
 StructureSpawn.prototype.spawnManager = 
     function () {
 
-        // 200 energy is minimum for a viable creep
-        if (this.spawning != null || this.room.energyAvailable < 200){return;}
+        // Re-Define room
+        let room = this.room;
 
-        // Define variables
-        let room = this.room;       
+        // Get a list of creep objects
         let roomCreeps = room.find(FIND_MY_CREEPS);
-        let creepCount = {};
+        
+        // What energy is available in the room this tick?
         let maxEnergy = room.energyAvailable;
-        let name = undefined;
         
+         
         
+        // Get a count of each creep in each role
+        let creepCount = {};
         for (let role of roles) {
             creepCount[role] = _.sum(roomCreeps, (c) => c.memory.role == role);
         }
+
+        // TODO: Do math here for spawning special creeps
+
         
-        var creepLimit
+        // Define variables that will change based on RCL
+        let workerLimit
+        let spawnEnergyMinimum;
+
         switch (this.room.controller.level) {
+            case 1:
+                spawnEnergyMinimum = 200
+                workerLimit= 10
+                break;
             case 2:
-                creepLimit = 15
+                spawnEnergyMinimum = 300
+                workerLimit = 15
                 break;
             case 3:
-                creepLimit = 20
+                spawnEnergyMinimum = 600
+                workerLimit = 15
                 break;
             case 4:
-                creepLimit = 20
+                spawnEnergyMinimum = 1000
+                workerLimit = 15
                 break;
             
             default:
-                creepLimit = 10
+                spawnEnergyMinimum = 1200
+                workerLimit = 10
         }
 
-        console.log('creep limit: ' + creepLimit)
-        if (creepCount['worker'] < creepLimit){
+        console.log('creep limit: ' + workerLimit)
+
+        // check viable spawn energy - minimum for a viable creep
+        if (this.spawning != null || (this.spawning === null && this.room.energyAvailable < spawnEnergyMinimum)){return;}
+
+
+        
+        if (creepCount['worker'] < workerLimit){
             let spawned = this.createWorkerCreep(maxEnergy, 'worker')
         }
 
@@ -63,5 +85,5 @@ StructureSpawn.prototype.createWorkerCreep =
         }
 
         // create creep with the created body and the given role
-        return this.spawnCreep(body, roleName + '_' + Game.time, { memory: { role: roleName, task: "{\"type\":\"harvest\",\"target\":null,\"role\":\"worker\",\"complete\":false}"}});
+        return this.spawnCreep(body, roleName + '_' + Game.time, { memory: { role: roleName } } );
     };

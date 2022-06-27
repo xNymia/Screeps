@@ -1,66 +1,113 @@
 const tasks = {
-    "harvest" : require('../tasks/tsk_harvest'),
+    "store" : require('../tasks/tsk_store'),
     "upgrade" : require('../tasks/tsk_upgrade'),
-    "build" : require('../tasks/tsk_build')
+    "build" : require('../tasks/tsk_build'),
+    "repair" : require('../tasks/tsk_repair')
 }
-
-
 
 var creepManager = {
     run : function(creep){
-    
-        // does the creep have a task currently
-        
-        // console.log(creep.name +' chonkyBit: ' + creep.tasks.chonkyBit)
 
-        if (creep.tasks.chonkyBit === false || (creep.tasks.chonkyBit == true && creep.isEmpty() === false)){
-            this.runTask(creep)
+        // Variables for decision making
+        var room = creep.room
+        var roomCreeps = room.find(FIND_MY_CREEPS)
+        var creepCount = {}
+        for (let task in tasks) {
+            creepCount[task] = _.sum(roomCreeps, (c) => c.task.type == task);
+        }
+        let conSites = room.find(FIND_MY_CONSTRUCTION_SITES)
+        let repairTargets = creep.pos.findClosestByPath(creep.room.find(FIND_STRUCTURES, {    
+            filter: (s) => s.hits < s.hitsMax && s.structureType != STRUCTURE_WALL
+        }));
+
+        
+        // If the creep is empty but still has a task - nuke the task
+        if (creep.isEmpty() === true && creep.task.type != undefined){  
+            creep.task.type = undefined
+            creep.task.destination = undefined
+        }   
+        
+        // If the creep is empty or has getChonk set - Go get Energy
+        if (creep.isEmpty() === true || creep.task.getChonk === true){            
+            if (creep.task.getChonk === false){
+                creep.task.getChonk = true
+            }
+
+            creep.getEnergy()
+
+            // If the creep got full on this tick, remove getChonk
+            if (creep.isFull() === true){
+                creep.task.getChonk = false
+            }
             return
         }
-        
-        // if chonkyBit is true and the creep is empty, its time to reset
-        creep.tasks.chonkyBit = false
 
-        this.takeTask(creep)
-        //this.runTask(creep)
-        return;
+        // If creep is chonky, and has a task - do the task
+        if ( creep.task.getChonk === false && creep.task.type != undefined ){
+            tasks[creep.task.type].run(creep)
+            return
 
-    },
-
-    takeTask : function(creep){
-        let roomQ = creep.room.taskQueue.queue;
-
-
-        for (let task in roomQ) {
-            if (roomQ[task].role === creep.tasks.role){
-                
-                let myTask = roomQ[task]
-                
+        }
+        // If the creep has no task, get one.
+        else if ( creep.task.type === undefined ){
             
+            /** 
+             * This is the main decision tree for the room
+             * executed on a per creep basis, what does the room need
+             * then apply the creep to that
+             */
 
-                creep.tasks.type = myTask.type;
-                creep.tasks.target = myTask.target;
-                creep.tasks.role = myTask.role;
-                creep.tasks.complete = myTask.complete;
-                creep.tasks.id = myTask.id;
-
-
-                console.log(creep.name + ' taking new task: ' + JSON.stringify(myTask))
-  
-                const index = roomQ.indexOf(myTask);
-                roomQ.splice(index,1)
-                return;
-                
-                
-                
-                //return myTask
+            if (room.energyAvailable < room.energyCapacityAvailable ){
+                this.giveTask(creep, 'store')
+                return
             }
+
+            if (repairTargets != null) {
+                if ((creepCount['repair'] < 2 || creepCount['repair'] === undefined) && room.controller.level > 2){
+                    this.giveTask(creep, 'repair')
+                    return
+                }
+            }
+           
+
+            
+            if (conSites.length > 0){
+                let inProg = _.filter(conSites, c => c.progress > 0)
+                
+                if (inProg.length > 0){
+                    this.giveTask(creep, 'build', inProg[0].id)
+                    return
+                } else {
+                    this.giveTask(creep, 'build', conSites[0].id)
+                    return
+                }
+            }
+
+
+            this.giveTask(creep, 'upgrade')
+
+
+
         }
     },
 
-    runTask : function(creep) {        
-        tasks[creep.tasks.type].run(creep);
-    },
+    giveTask : function(creep, task, destination) {
+
+        /**
+         * @type {Creep} creep
+         * @type {task} string
+         * @type {destination} objectID
+         */
+
+        creep.task.type = task
+        if (destination != undefined){
+            creep.task.destination = destination
+        } else {
+            creep.task.destination = undefined
+        }
+
+    }
+    
 }
 
 
