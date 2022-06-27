@@ -1,36 +1,20 @@
-var harvest = require('./tsk_harvest')
+var harvest = require('./tsk_store')
 
 module.exports = {
     run : function (creep){
 
            
-        let destination = Game.getObjectById(creep.tasks.target)
+        let destination = Game.getObjectById(creep.task.destination)
         
-        
-        if (destination === null){
-            creep.tasks.type = 'harvest'
-            creep.tasks.destination = null
-            console.log(creep.name + ' no build site changing to harvest')
-            harvest.run(creep);
-            return;
-        }
-        
-
-        if (creep.isFull() === true || creep.tasks.chonkyBit === true) {
-
-            if (creep.tasks.chonkyBit != true){
-                creep.tasks.chonkyBit = true;
+        if (destination != undefined) {
+            if (creep.build(destination) === ERR_NOT_IN_RANGE) {
+                creep.moveTo(destination);
+                return;
             }
-
-            if (destination != undefined) {
-                if (creep.build(destination) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(destination);
-                    return;
-                }
-            }
-                   
-        } else {
-            creep.getEnergy(true, true);
+        } else if (destination === null) {
+            creep.task.type = undefined
+            creep.task.destination = undefined
+            return
         }
     }
 };
