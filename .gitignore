@@ -1,4 +1,5 @@
 secrets.ini
 dist/*.js
+dist/*.ts
 node_modules
 package-lock.json
